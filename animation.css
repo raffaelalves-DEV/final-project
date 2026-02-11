@@ -1,0 +1,100 @@
+/* ============================= */
+/* SPLASH SCREEN */
+/* ============================= */
+
+:root {
+  --bg-main: #0b0b0b;
+  --bg-soft: #141414;
+  --primary: #e50914;
+  --text-main: #ffffff;
+  --text-muted: #b3b3b3;
+}
+
+#splash {
+  position: fixed;
+  inset: 0;
+
+  background: linear-gradient(
+        to top,
+        rgb(132, 4, 10) 0%,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 100%);      
+
+  color: var(--primary);
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+
+  animation: fadeIn 2s ease forwards;
+}
+
+/* estado de saída */
+#splash.fade-out {
+  animation: fadeOut 1s ease forwards;
+}
+
+#splash h1 {
+  font-size: 5rem;
+  letter-spacing: -3px;
+  margin-bottom: 1rem;
+}
+
+#splash p {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+}
+
+/* Botão principal */
+#start-btn {
+  background: var(--primary);
+  color: var(--text-main);
+  border: none;
+  padding: 14px 40px;
+  font-size: 0.95rem;
+  letter-spacing: 0.12rem;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#start-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
+}
+
+/* App escondido inicialmente */
+.hidden {
+  display: none;
+}
+
+/* ============================= */
+/* ANIMAÇÕES */
+/* ============================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

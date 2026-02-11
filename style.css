@@ -1,0 +1,305 @@
+/* 
+   IMPORTS (FONTS)
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap');
+@import url(animation.css);
+
+/* 
+   RESET + CONFIGURAÇÕES GLOBAIS
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Inter", sans-serif;
+    letter-spacing: -1px;
+}
+
+
+/* 
+   BODY / BACKGROUND
+ */
+body {
+    padding: 10vh 0;
+
+    background: linear-gradient(
+        to top,
+        rgb(132, 4, 10) 0%,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 100%
+    );
+}
+
+
+/* 
+   HEADER (FIXO)
+ */
+header {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+
+    width: 100%;
+    height: 10vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #E50814;
+    background-color: rgba(0, 0, 0, 0.617);
+    backdrop-filter: blur(20px);
+
+    img {
+        width: 6rem;
+        height: 6rem;
+    }
+}
+
+
+/* 
+   HERO
+ */
+.hero {
+    width: 100%;
+    height: 40vh;
+    background-color: white;
+}
+
+
+/* 
+   FORMULÁRIO
+ */
+form {
+    position: relative;
+
+    width: 70%;
+    height: 30vh;
+    margin: 0 auto;
+    padding: 2%;
+
+    transform: translateY(-50%);
+
+    background-color: rgba(10, 10, 10, 0.925);
+    border-radius: 20px;
+    border: 3px solid #E50814;
+    box-shadow: 3px 3px 5px #e50813c7;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    div {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+
+/* 
+   INPUTS
+ */
+input {
+    width: 20rem;
+    height: 3rem;
+
+    padding: 1rem;
+
+    border-radius: 10px;
+    border: 2px solid #E50814;
+    box-shadow: 3px 2px 3px #e508138d;
+
+    background-color: rgb(22, 22, 22);
+    color: rgba(255, 255, 255, 0.75);
+
+    outline: none;
+    text-align: start;
+}
+
+input::placeholder {
+
+  background-color: transparent; 
+}
+
+
+/* 
+   BOTÕES DO FORM
+ */
+.btn-form {
+    width: 10rem;
+    height: 3rem;
+
+    border-radius: 10px;
+    border: none;
+
+    background-color: black;
+    color: white;
+    border: 2px solid #E50814;
+    box-shadow: 5px 5px 5px black;
+
+    transition: all 0.3s;
+}
+
+.btn-form:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+
+/* 
+   GRID DE COLUNAS (WATCHED / WATCHING / TO WATCH)
+ */
+.cards {
+    width: 90%;
+    height: 60vh;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.cards > div {
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(128, 128, 128, 0.229);
+    border-radius: 18px;
+    border: 3px solid #E50814;
+
+    text-align: center;
+
+    h2 {
+        padding: 1rem;
+
+        background-color: black;
+        color: white;
+        font-weight: 500;
+
+        border-radius: 15px 15px 0 0;
+        border-bottom: 3px solid #E50814;
+    }
+}
+
+
+/* 
+   POSICIONAMENTO DAS COLUNAS
+ */
+#watched {
+    grid-column: 1 / 2;
+}
+
+#watching {
+    grid-column: 2 / 3;
+}
+
+#to-watch {
+    grid-column: 3 / 4;
+}
+
+
+/* 
+   CONTAINER DE CARDS (LISTA)
+ */
+.movie {
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+/* 
+   CARD INDIVIDUAL
+ */
+.movie > div {
+    position: relative;
+
+    height: 8rem;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: rgba(8, 7, 7, 0.424);
+    color: white;
+    border-radius: 15px;
+}
+
+
+/* 
+   ÍCONE DO FILME
+ */
+.img {
+    i {
+        font-size: 5rem;
+    }
+}
+
+
+/* 
+   CONTEÚDO DO CARD
+ */
+.content {
+    h4 {
+        font-size: 1rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+    }
+}
+
+.movie-category {
+    color: rgba(198, 198, 198, 0.78);
+}
+
+
+/* 
+   TEMPO DE CRIAÇÃO
+ */
+.created-time {
+    position: absolute;
+    bottom: 4%;
+    right: 3%;
+
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.48);
+}
+
+
+/* 
+   BOTÃO DELETE
+ */
+.trash {
+    width: 3rem;
+    height: 3rem;
+
+    border: none;
+    background-color: transparent;
+    background-image: url(assets/trash-solid-full\ \(1\).svg);
+    background-size: 100%;
+
+    transition: all 0.4s;
+}
+
+.trash:hover {
+    cursor: pointer;
+    background-image: url(assets/trash-solid-full.svg);
+}
+
+.trash:active {
+    transform: scale(0.95);
+}
+
+
+/* 
+   DRAG & DROP
+ */
+[data-created-at] {
+    cursor: grab;
+};
+
+

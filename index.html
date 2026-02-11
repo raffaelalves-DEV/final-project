@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/25020b53db.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js"></script>
+    <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1/plugin/relativeTime.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>DID I WATCHED?</title>
+</head>
+<body>
+    <div id="splash">
+    <h1>DID  I  WATCHED?</h1>
+    <p>
+        Track what you watched, what you're watching,
+        and what’s next.
+    </p>
+    <button id="start-btn">START WATCHING 🎬</button>
+    </div>
+
+    <header>
+        <h2>DID I WATCHED</h2><img src="assets/did.png"><h2></h2>
+    </header>
+    <section class="hero">
+        <img src="assets/Captura de ecrã 2026-02-10, às 14.41.53.png" style="height: 100%; width: 100%;">
+    </section>
+    <form action="">
+        <div>
+        <input placeholder="Movie name" id="movie-name" type="text">
+        <input placeholder="Movie category" id="movie-category" type="text">
+        </div>
+        <div>
+            <button type="button" class="btn-form" id="btn-watched">WATCHED</button>
+            <button type="button" class="btn-form" id="btn-watching">WATCHING</button>
+            <button type="button" class="btn-form" id="btn-towatch">TO WATCH</button>
+        </div>
+    </form>
+
+    <section class="cards">
+        <div class="movie droppable" id="watched">
+            <h2>WATCHED</h2>
+        </div>
+        <div class="movie droppable" id="watching">
+            <h2>WATCHING</h2>
+        </div>
+        <div class="movie droppable" id="to-watch">
+            <h2>TO WATCH</h2>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
