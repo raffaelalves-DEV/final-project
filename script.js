@@ -1,11 +1,6 @@
-
-// Day.js
-
 dayjs.extend(dayjs_plugin_relativeTime);
-dayjs.locale('pt-br');
 
 
-// Seleção de botões e cards
 
 const btnWatched = document.getElementById('btn-watched');
 const btnWatching = document.getElementById('btn-watching');
@@ -15,9 +10,11 @@ const cardWatched = document.getElementById('watched');
 const cardWatching = document.getElementById('watching');
 const cardToWatch = document.getElementById('to-watch');
 
+const movieNameInput = document.getElementById('movie-name');
+const movieCategoryInput = document.getElementById('movie-category');
+
 
 // Ícones por categoria
-
 const iconByCategory = {
   horror: 'fa-skull',
   action: 'fa-bolt',
@@ -37,44 +34,92 @@ const iconByCategory = {
 };
 
 
-// Criar card de filme
+function saveMovies() {
+  const allMovies = {
+    watched: getMoviesFromCard(cardWatched),
+    watching: getMoviesFromCard(cardWatching),
+    toWatch: getMoviesFromCard(cardToWatch)
+  };
+  
+  localStorage.setItem('movies', JSON.stringify(allMovies));
+}
 
-function createMovieCard(name, category) {
+
+function getMoviesFromCard(card) {
+  const movies = [];
+  const movieCards = card.querySelectorAll('.movie-card');
+  
+  movieCards.forEach(movieCard => {
+    movies.push({
+      name: movieCard.querySelector('h4').textContent,
+      category: movieCard.querySelector('.movie-category').textContent,
+      createdAt: movieCard.dataset.createdAt
+    });
+  });
+  
+  return movies;
+}
+
+
+
+function loadMovies() {
+  const saved = localStorage.getItem('movies');
+  
+  if (!saved) return;
+  
+  const allMovies = JSON.parse(saved);
+  
+
+  allMovies.watched.forEach(movie => {
+    const card = createMovieCard(movie.name, movie.category, movie.createdAt);
+    cardWatched.append(card);
+  });
+  
+  allMovies.watching.forEach(movie => {
+    const card = createMovieCard(movie.name, movie.category, movie.createdAt);
+    cardWatching.append(card);
+  });
+  
+  allMovies.toWatch.forEach(movie => {
+    const card = createMovieCard(movie.name, movie.category, movie.createdAt);
+    cardToWatch.append(card);
+  });
+  
+  enableDragAndDrop();
+}
+
+
+function createMovieCard(name, category, createdAt) {
   if (!name) return null;
 
-  const createdAt = new Date();
+  const timestamp = createdAt || new Date().toISOString();
   const newMovie = document.createElement('div');
-
-  // ADIÇÃO NECESSÁRIA PARA O DRAG !!!
   newMovie.classList.add('movie-card');
-
-  newMovie.dataset.createdAt = createdAt.toISOString();
+  newMovie.dataset.createdAt = timestamp;
 
   newMovie.innerHTML = `
     <div class="img"><i class="icon fa-solid fa-film"></i></div>
     <div class="content">
       <h4>${name.toUpperCase()}</h4>
       <p class="movie-category">${category.toUpperCase()}</p>
-      <p class="created-time">added ${dayjs(createdAt).fromNow()}</p>
+      <p class="created-time">added ${dayjs(timestamp).fromNow()}</p>
     </div>
     <button class="trash"></button>
   `;
 
-  // Ícone da categoria
   const iconEl = newMovie.querySelector('.icon');
   const iconClass = iconByCategory[category.toLowerCase()] || 'fa-film';
   iconEl.classList.replace('fa-film', iconClass);
 
-  // Botão delete
   newMovie.querySelector('.trash').addEventListener('click', () => {
     newMovie.remove();
+    saveMovies(); 
   });
 
   return newMovie;
 }
 
 
-// Atualizar tempos
 
 function updateCreatedTimes() {
   document.querySelectorAll('[data-created-at]').forEach(movie => {
@@ -86,62 +131,69 @@ function updateCreatedTimes() {
 }
 
 
-// Event listeners
-
 btnToWatch.addEventListener('click', () => {
-  const name = document.getElementById('movie-name').value;
-  const category = document.getElementById('movie-category').value;
+  const name = movieNameInput.value.trim();
+  const category = movieCategoryInput.value;
+  
+  if (!name) return; 
+  
   const card = createMovieCard(name, category);
   if (!card) return;
 
   cardToWatch.append(card);
   enableDragAndDrop();
-
-  document.getElementById('movie-name').value = '';
-  document.getElementById('movie-category').value = '';
+  
+  movieNameInput.value = '';
+  movieCategoryInput.value = '';
+  
+  saveMovies(); 
 });
 
 btnWatching.addEventListener('click', () => {
-  const name = document.getElementById('movie-name').value;
-  const category = document.getElementById('movie-category').value;
+  const name = movieNameInput.value.trim();
+  const category = movieCategoryInput.value;
+  
+  if (!name) return;
+  
   const card = createMovieCard(name, category);
   if (!card) return;
 
   cardWatching.append(card);
   enableDragAndDrop();
-
-  document.getElementById('movie-name').value = '';
-  document.getElementById('movie-category').value = '';
+  
+  movieNameInput.value = '';
+  movieCategoryInput.value = '';
+  
+  saveMovies();
 });
 
+
 btnWatched.addEventListener('click', () => {
-  const name = document.getElementById('movie-name').value;
-  const category = document.getElementById('movie-category').value;
+  const name = movieNameInput.value.trim();
+  const category = movieCategoryInput.value;
+  
+  if (!name) return;
+  
   const card = createMovieCard(name, category);
   if (!card) return;
 
   cardWatched.append(card);
   enableDragAndDrop();
-
-  document.getElementById('movie-name').value = '';
-  document.getElementById('movie-category').value = '';
+  
+  movieNameInput.value = '';
+  movieCategoryInput.value = '';
+  
+  saveMovies();
 });
 
 
-// Timer
-
-updateCreatedTimes();
-setInterval(updateCreatedTimes, 60000);
-
-
-// DRAG & DROP (Shopify Draggable)
 
 let sortableInstance = null;
 
 function enableDragAndDrop() {
   const containers = document.querySelectorAll('.droppable');
 
-  // destrói instância antiga
+  // Destrói a instância antiga se existir
   if (sortableInstance) {
     sortableInstance.destroy();
   }
@@ -152,26 +204,36 @@ function enableDragAndDrop() {
       constrainDimensions: true,
     }
   });
+  
+  sortableInstance.on('sortable:stop', () => {
+    saveMovies();
+  });
 }
 
-// inicializa (caso já existam cards)
-enableDragAndDrop();
 
 
 
-
-// PAGE ANIMATION
-
-
-const startBtn = document.getElementById('start-btn')
-const splash = document.getElementById('splash')
-const app = document.getElementById('app')
+const startBtn = document.getElementById('start-btn');
+const splash = document.getElementById('splash');
+const app = document.getElementById('app');
 
 startBtn.addEventListener('click', () => {
-  splash.classList.add('fade-out')
+  splash.classList.add('fade-out');
 
   setTimeout(() => {
-    splash.style.display = 'none'
-    app.classList.remove('hidden')
-  }, 1000) 
-})
+    splash.style.display = 'none';
+    app.classList.remove('hidden');
+  }, 1000);
+});
+
+
+
+
+loadMovies();
+
+
+updateCreatedTimes();
+setInterval(updateCreatedTimes, 60000);
+
+
+enableDragAndDrop();
